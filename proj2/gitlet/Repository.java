@@ -51,6 +51,7 @@ public class Repository {
         OBJECTS_DIR.mkdir();
         REF_DIR.mkdir();
         HEADS_DIR.mkdir();
+        writeObject(INDEX_FILE, new Index());
         Blob.BLOB_FOLDER.mkdir();
         Commit.COMMIT_FOLDER.mkdir();
 
