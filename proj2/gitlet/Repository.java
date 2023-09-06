@@ -2,6 +2,7 @@ package gitlet;
 
 import javax.print.attribute.standard.JobImpressions;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class Repository {
     private static Index stageRemoval = new Index();
     private static Commit currCommit;
 
-    public void init() {
+    public void init() throws IOException {
         // 1. Create the current working directory.
         if (GITLET_DIR.exists() && GITLET_DIR.isDirectory()) {
             System.out.println("A Gitlet version-control system already exists in the current directory");
@@ -50,7 +51,7 @@ public class Repository {
         OBJECTS_DIR.mkdir();
         REF_DIR.mkdir();
         HEADS_DIR.mkdir();
-        HEAD.mkdir();
+        HEAD.createNewFile();
         Blob.BLOB_FOLDER.mkdir();
         Commit.COMMIT_FOLDER.mkdir();
         Index.INDEX_FOLDER.mkdir();
