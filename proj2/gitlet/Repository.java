@@ -53,7 +53,7 @@ public class Repository {
         HEADS_DIR.mkdir();
         Blob.BLOB_FOLDER.mkdir();
         Commit.COMMIT_FOLDER.mkdir();
-        Index.INDEX_FOLDER.mkdir();
+
 
         // 2. make the initial commit.
         Commit initialCommit = new Commit();
