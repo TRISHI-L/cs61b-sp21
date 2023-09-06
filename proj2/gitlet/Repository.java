@@ -40,7 +40,7 @@ public class Repository {
     private static Index stageRemoval = new Index();
     private static Commit currCommit;
 
-    public void init() throws IOException {
+    public void init() {
         // 1. Create the current working directory.
         if (GITLET_DIR.exists() && GITLET_DIR.isDirectory()) {
             System.out.println("A Gitlet version-control system already exists in the current directory");
@@ -51,7 +51,6 @@ public class Repository {
         OBJECTS_DIR.mkdir();
         REF_DIR.mkdir();
         HEADS_DIR.mkdir();
-        HEAD.createNewFile();
         Blob.BLOB_FOLDER.mkdir();
         Commit.COMMIT_FOLDER.mkdir();
         Index.INDEX_FOLDER.mkdir();
