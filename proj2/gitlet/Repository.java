@@ -160,11 +160,18 @@ public class Repository {
 
     }
     private String getHeadBranchName() {
-        String name = Arrays.toString(readContents(HEAD));
+        String name = readContentsAsString(HEAD);
         return name;
     }
-    private File getBranchFile() {
-        return join(HEADS_DIR, getHeadBranchName());
+    private File getBranchFile(String branchName) {
+        File file = null;
+        String[] branches = branchName.split("/");
+        if (branches.length == 1) {
+            file = join(HEADS_DIR, branchName);
+        } else if (branches.length == 2) {
+            //file = join(REMOTES_DIR, branches[0], branches[1]);
+        }
+        return file;
     }
     public void rm(String fileName) {
         File file = join(CWD, fileName);
@@ -264,8 +271,16 @@ public class Repository {
         writeObject(file, c);
     }
     private Commit getHead() {
-        File file = getBranchFile();
-        return getCommitFromBranchFile(file);
+        String branchName = getHeadBranchName();
+        File branchFile = getBranchFile(branchName);
+        Commit head = getCommitFromBranchFile(branchFile);
+
+        if (head == null) {
+            System.out.println("error! cannot find HEAD!");
+            System.exit(0);
+        }
+
+        return head;
     }
     private Index readIndex() {
         return readObject(INDEX_FILE, Index.class);
