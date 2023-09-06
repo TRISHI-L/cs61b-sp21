@@ -4,15 +4,15 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     private class StuffNode {
         private T item;
         private StuffNode next;
         private StuffNode prev;
         public StuffNode(T i) {
-            item=i;
-            next=null;
-            prev=null;
+            item = i;
+            next = null;
+            prev = null;
         }
 
     }
@@ -24,9 +24,9 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
      *  Creates an empty LinkedListDeque.
      */
     public LinkedListDeque() {
-        size=0;
+        size = 0;
         sentinel = new StuffNode(null);
-        sentinel.next = sentinel.prev=sentinel;
+        sentinel.next = sentinel.prev = sentinel;
     }
 
     /** Adds an item of type T to the front of the deque. */
@@ -73,14 +73,14 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
 
     /** Returns the number of items in the deque. */
     @Override
-    public int size(){
+    public int size() {
         return size;
     }
     @Override
     public void printDeque() {
         StuffNode P = sentinel.next;
         while (P != sentinel) {
-            System.out.print (P.item+" ");
+            System.out.print (P.item + " ");
             P = P.next;
         }
         System.out.println();
@@ -90,7 +90,6 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
      *  If no such item exists, returns null. */
     @Override
     public T removeFirst() {
-
         if (size == 0) {
             return null;
         }
@@ -125,7 +124,7 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
      *  Must not alter the deque! */
     @Override
     public T get(int index) {
-        if (size == 0){
+        if (size == 0 || index < 0 || index > size - 1) {
             return null;
         } else {
             int i = 0;
@@ -138,16 +137,19 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
         }
     }
 
-    public T getRecursive(int index){
-        return getRecursiveHelper(index,sentinel.next);
+    public T getRecursive(int index) {
+        if (size == 0 || index < 0 || index > size - 1) {
+            return null;
+        }
+        return getRecursiveHelper(index, sentinel.next);
     }
-    public T getRecursiveHelper(int index,StuffNode p) {
+    private T getRecursiveHelper(int index, StuffNode p) {
         if (p == sentinel)
             return null;
         if (index == 0)
             return p.item;
         else {
-            return getRecursiveHelper(index-1,p.next);
+            return getRecursiveHelper(index-1, p.next);
         }
     }
 
@@ -181,19 +183,21 @@ public class LinkedListDeque<T> implements Iterable<T>,Deque<T> {
             return true;
         if (o instanceof LinkedListDeque) {
             LinkedListDeque<T> olld = (LinkedListDeque<T>) o;
-            if (this.size != olld.size)
+            if (this.size != olld.size) {
                 return false;
+            }
             for ( T x : this) {
-                if (!olld.contains(x))
+                if (!olld.contains(x)) {
                     return false;
+                }
             }
             return true;
         }
         return false;
     }
-    public boolean contains(T x) {
-        StuffNode p =sentinel.next;
-        while (p!=sentinel) {
+    private boolean contains(T x) {
+        StuffNode p = sentinel.next;
+        while (p != sentinel) {
             if (p.item == x)
                 return true;
             p = p.next;

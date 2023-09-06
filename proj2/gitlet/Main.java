@@ -1,5 +1,8 @@
 package gitlet;
 
+import static gitlet.Utils.*;
+
+
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author TODO
  */
@@ -10,15 +13,56 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO: what if args is empty?
+        if (args.length == 0) {
+            throw error("Please enter a command.");
+        }
         String firstArg = args[0];
+        Repository repo = new Repository();
         switch(firstArg) {
             case "init":
-                // TODO: handle the `init` command
+                repo.init();
                 break;
             case "add":
-                // TODO: handle the `add [filename]` command
+                repo.add(args[1]);
                 break;
-            // TODO: FILL THE REST IN
+            case "commit":
+                repo.commit(args[1]);
+                break;
+            case "rm":
+                repo.rm(args[1]);
+                break;
+            case "log":
+                break;
+            case "global-log":
+                break;
+            case "find":
+                break;
+            case "status":
+                break;
+            case "checkout":
+                int len = args.length;
+                if (len == 3) {
+                    repo.checkoutFromHead(args[2]);
+                } else if (len == 4) {
+                    repo.checkoutFromCommit(args[1], args[3]);
+
+                } else if (len == 2) {
+                    repo.checkoutFromBranch(args[1]);
+                    
+                }
+
+                break;
+            case "branch":
+                break;
+            case "rm-branch":
+                break;
+            case "reset":
+                break;
+            case "merge":
+                break;
+            default:
+                throw error("No command with that name exists.");
         }
     }
+
 }

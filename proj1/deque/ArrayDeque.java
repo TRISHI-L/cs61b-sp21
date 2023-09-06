@@ -1,6 +1,7 @@
 package deque;
 
 //import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
@@ -30,16 +31,16 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private int addOne(int curIndex) {
         return (curIndex + 1) % item.length;
     }
-    private int getExactIndexElement(int curIndex,int index) {
+    private int getExactIndexElement(int curIndex, int index) {
         return (curIndex + index + 1) % item.length;
     }
 
-    public void resize(int capacity) {
+    private void resize(int capacity) {
 
         T[] copyList = (T[]) new Object [capacity];
         int index = addOne(nextFirst);
         //System.arraycopy(item,0,copyList,0,size);
-        for(int i = 0 ; i < size ; i++){
+        for (int i = 0; i < size; i++) {
             copyList[i] = item[index];
             index = addOne(index);
         }
@@ -48,12 +49,14 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         nextLast = size;
     }
     private void checkMul() {
-        if (size == item.length)
-            resize(size*2);
+        if (size == item.length) {
+            resize(size * 2);
+        }
     }
     private void checkDiv() {
-        if (item.length >= 16 && (double) size / item.length < usageRatio)
-            resize(item.length/4);
+        if (item.length >= 16 && (double) size / item.length < usageRatio) {
+            resize(item.length / 4);
+        }
     }
     /** Adds an item of type T to the front of the deque. */
     @Override
@@ -86,8 +89,8 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
      */
     @Override
     public void printDeque() {
-        for (int i = 0 ; i < size ; i++) {
-            System.out.print(get(i)+" ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(get(i) + " ");
         }
         System.out.println();
     }
@@ -127,7 +130,7 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
      *  If no such item exists, returns null.
      *  Must not alter the deque! */
     @Override
-    public T get(int index){
+    public T get(int index) {
         return item[getExactIndexElement(nextFirst, index)];
     }
 
@@ -137,13 +140,15 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
      public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
-    private class ArrayDequeIterator implements Iterator<T>{
+    private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
-        public ArrayDequeIterator(){ wizPos = 0;}
-        public boolean hasNext(){
+        public ArrayDequeIterator() {
+            wizPos = 0;
+        }
+        public boolean hasNext() {
             return wizPos < size ;
         }
-        public T next(){
+        public T next() {
             T i = item[wizPos];
             wizPos += 1;
             return i;
@@ -155,13 +160,15 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
      *  (as goverened by the generic T’s equals method) in the same order. */
      @Override
      public boolean equals(Object o) {
-         if ( this == o) return true;
+         if ( this == o) {
+             return true;
+         }
          if ( o instanceof ArrayDeque ) {
              ArrayDeque<T> other = (ArrayDeque<T>) o;
              if( size != other.size()) {
                  return false;
              }
-             for (int i = 0; i<size;i++) {
+             for (int i = 0; i < size; i++) {
                  if(get(i) != other.get(i)) {
                      return false;
                  }
