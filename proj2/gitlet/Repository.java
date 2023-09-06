@@ -155,7 +155,7 @@ public class Repository {
         writeCommitToFile(newCommit);
         clearIndex(index);
 
-        File branch = getBranchFile();
+        File branch = getBranchFile(getHeadBranchName());
         writeContents(branch, newCommitId);
 
     }
